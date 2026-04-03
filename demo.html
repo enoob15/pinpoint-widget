@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinpoint Demo - See the feedback widget in action</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #4f46e5;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .demo-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .demo-button {
+            background: #f3f4f6;
+            border: 2px solid #e5e7eb;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .demo-button:hover {
+            border-color: #4f46e5;
+            background: #f8fafc;
+        }
+        .demo-button h3 {
+            margin: 0 0 10px 0;
+            color: #1f2937;
+        }
+        .demo-button p {
+            margin: 0;
+            font-size: 14px;
+            color: #6b7280;
+        }
+        .instructions {
+            background: #fef3c7;
+            border: 1px solid #fbbf24;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .instructions h3 {
+            margin-top: 0;
+            color: #92400e;
+        }
+        .feedback-section {
+            margin-top: 40px;
+            text-align: center;
+        }
+        .feedback-section a {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .feedback-section a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>📌 Pinpoint Widget Demo</h1>
+        
+        <p>This page demonstrates the Pinpoint feedback widget in action. Try the demo actions below to see how Pinpoint captures different types of user feedback and behavior.</p>
+        
+        <div class="instructions">
+            <h3>🎯 How to Test the Feedback Widget</h3>
+            <p><strong>1. Visual Feedback:</strong> Look for the blue feedback button (bottom-right corner). Click it, then click any element on this page to drop a feedback pin with your comment.</p>
+            <p><strong>2. Try the demo buttons below</strong> to simulate errors, rage clicks, and network failures.</p>
+            <p><strong>3. See results:</strong> All feedback is sent to the Pinpoint dashboard in real-time.</p>
+        </div>
+
+        <div class="demo-actions">
+            <div class="demo-button" onclick="triggerError()">
+                <h3>🚫 JavaScript Error</h3>
+                <p>Trigger an uncaught error to test error tracking</p>
+            </div>
+            
+            <div class="demo-button" onclick="triggerNetworkError()">
+                <h3>📡 Network Failure</h3>
+                <p>Simulate a failed API call</p>
+            </div>
+            
+            <div class="demo-button" id="rage-target">
+                <h3>😡 Rage Click Test</h3>
+                <p>Click this rapidly 3+ times to trigger rage click detection</p>
+            </div>
+            
+            <div class="demo-button" onclick="triggerConsoleLog()">
+                <h3>📝 Console Messages</h3>
+                <p>Add messages to console buffer</p>
+            </div>
+        </div>
+
+        <div class="feedback-section">
+            <h3>Want to add Pinpoint to your site?</h3>
+            <p>Just add this script tag:</p>
+            <pre style="background: #f3f4f6; padding: 15px; border-radius: 6px; overflow-x: auto; font-size: 12px;"><code>&lt;script src="https://cdn.jsdelivr.net/gh/enoob15/pinpoint-widget@latest/pinpoint.min.js" 
+        data-project="demo-project"&gt;&lt;/script&gt;</code></pre>
+            
+            <p style="margin-top: 30px;">
+                <a href="https://pinpoint.boone51.com" target="_blank">Get your API key at pinpoint.boone51.com →</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Pinpoint Widget -->
+    <script 
+        src="https://cdn.jsdelivr.net/gh/enoob15/pinpoint-widget@latest/pinpoint.min.js"
+        data-project="demo-project"
+        data-endpoint="https://pinpoint.boone51.com/api/ingest"
+    ></script>
+
+    <script>
+        // Demo functions to trigger different widget features
+        
+        function triggerError() {
+            console.log("Triggering test error...");
+            setTimeout(() => {
+                throw new Error("Demo JavaScript error - this is intentional for testing Pinpoint error tracking!");
+            }, 100);
+        }
+
+        function triggerNetworkError() {
+            console.log("Triggering network error...");
+            fetch('https://httpstat.us/500')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network request failed');
+                    }
+                    return response.json();
+                })
+                .catch(error => {
+                    console.error('Network error (this is intentional):', error);
+                });
+        }
+
+        function triggerConsoleLog() {
+            console.log("Demo console.log message");
+            console.warn("Demo console.warn message");
+            console.error("Demo console.error message - this is intentional for testing");
+        }
+
+        // Add some realistic page behavior
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("Pinpoint demo page loaded successfully");
+            
+            // Simulate some user activity
+            setTimeout(() => {
+                console.log("Page ready for feedback collection");
+            }, 2000);
+        });
+
+        // Add scroll depth simulation
+        let hasScrolled = false;
+        window.addEventListener('scroll', function() {
+            if (!hasScrolled) {
+                hasScrolled = true;
+                console.log("User scrolled - this activity is tracked by Pinpoint");
+            }
+        });
+    </script>
+</body>
+</html>
