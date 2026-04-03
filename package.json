@@ -1,0 +1,32 @@
+{
+  "name": "@pinpoint/widget",
+  "version": "1.0.0",
+  "description": "Universal feedback widget for any website",
+  "main": "pinpoint.min.js",
+  "scripts": {
+    "test": "echo \"No tests yet\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enoob15/pinpoint-widget.git"
+  },
+  "keywords": [
+    "feedback",
+    "analytics", 
+    "widget",
+    "javascript",
+    "typescript",
+    "user-experience",
+    "bug-tracking"
+  ],
+  "author": "Boone51 Studios",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/enoob15/pinpoint-widget/issues"
+  },
+  "homepage": "https://pinpoint.boone51.com",
+  "files": [
+    "pinpoint.min.js",
+    "README.md"
+  ]
+}
